@@ -5,9 +5,6 @@ class GraphGenerator:
     def __init__(self):
         self.graph = None # Generated graph
         self.graph_path = None
-        self.ifc_url = 'https://kgg.openmetrics.eu/'
-        self.url_upload_ifc = self.ifc_url + '/upload'
-        self.url_download_ifc_graph = self.ifc_url + '/download'
 
 
 
@@ -27,12 +24,18 @@ class GraphGenerator:
         """
         Generate graph using idf file
         """
+        # Define URIs
+        ifc_url = 'https://kgg.openmetrics.eu/'
+        url_upload_ifc = self.ifc_url + '/upload'
+        url_download_ifc_graph = self.ifc_url + '/download'
+
+
         files = [
             ('file',(file_name+'.ifc',open(file_name, 'rb'),'application/octet-stream'))
         ]
         payload = {}
         s = requests.Session()
-        s.get(self.ifc_url)
+        s.get(ifc_url)
 
         headers_post = {
             'Cookie': 'JSESSIONID=' + s.cookies.get_dict()['JSESSIONID']
@@ -42,7 +45,7 @@ class GraphGenerator:
             'Cookie': 'JSESSIONID=' + s.cookies.get_dict()['JSESSIONID']
         }
 
-        response_post = requests.request("POST", self.url_upload_ifc, headers=headers_post, data=payload, files=files)
-        response_get = requests.request("GET", self.url_download_ifc_graph, headers=headers_get, data=payload)
+        response_post = requests.request("POST", url_upload_ifc, headers=headers_post, data=payload, files=files)
+        response_get = requests.request("GET", url_download_ifc_graph, headers=headers_get, data=payload)
 
         return response_get.text  # GRAPH DB DOCKER?????
