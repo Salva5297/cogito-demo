@@ -8,8 +8,6 @@ from Classes.FileTracker import FileTracker
 
 app = Flask(__name__)
 
-
-
 @app.route("/<id>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def manager(id):
     controller = Controller(request, id)

@@ -21,10 +21,16 @@ class Controller:
 
 
     def get(self):
+        """
+        Get statement
+        """
         self.request.get_data()
         self.response = {'status': 'success'} # TODO: create get method
 
     def post(self, graph_generator):
+        """
+        Post file, generate graph and TDs and store them inside their respectives databases
+        """
         if "file" not in request.files:
             return make_response(jsonify({"response": "No file part"}))
         self.file_type = self.request.args.get('file_type','') # retrieve file type
@@ -36,11 +42,17 @@ class Controller:
         return self.response
         
     def post_enrichment(self, enricher):
+        """
+        Enrich TDs with images or extra files
+        """
         # call enricher class
         pass
 
 
     def put(self):
+        """
+        Insert graph given as argument in body of the request in triple store and generate TDs
+        """
         if "rdf" not in request.files:
             return make_response(jsonify({"response": "No file part"}))
         self.uploaded_file = self.request.files['rdf'].read()
@@ -49,11 +61,17 @@ class Controller:
         return self.response
 
     def delete(self):
+        """
+        Delete statement
+        """
         self.response = {'status': 'success'} # TODO: create delete method
 
 
 
     def insert_graph(self,file_name):
+        """
+        Insert graph in triple store
+        """
         proc = subprocess.Popen(["curl",
                                 "--digest",
                                 "--verbose" ,
@@ -84,6 +102,9 @@ class Controller:
 
 
     def temporal_file_generation_process(self):
+        """
+        Create temporal file, generate graph and store it in triple store
+        """
         temp = tempfile.NamedTemporaryFile()
         try:
             temp.write(self.uploaded_file)

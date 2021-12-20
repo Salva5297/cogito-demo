@@ -9,7 +9,9 @@ class GraphGenerator:
 
 
     def generate_graph(self, file_type, file_name):
-
+        """
+        Generate graph from a specific file uploaded
+        """
         if file_type == 'idf':
             self.graph = self.generate_ifc_graph(file_name)
         
