@@ -3,6 +3,8 @@ from flask import Flask, json, send_file, request, make_response, jsonify
 from Classes.Controller import Controller
 from Classes.GraphGenerator import GraphGenerator
 from Classes.Enricher import Enricher
+from Classes.TDGenerator import TDGenerator
+from Classes.FileTracker import FileTracker
 
 app = Flask(__name__)
 
@@ -10,24 +12,21 @@ app = Flask(__name__)
 
 @app.route("/<id>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def manager(id):
+    controller = Controller(request, id)
     if request.method == 'GET':
-        controller = Controller(request, id)
         controller.get()
         return 'get'
 
     elif request.method == 'POST':
-        controller = Controller(request, id)
         graph_generator = GraphGenerator()
         controller.post(graph_generator)
         return 'post'
     
     elif request.method == 'PUT':
-        controller = Controller(request, id)
         controller.put()
         return 'put'
     
     elif request.method == 'DELETE':
-        controller = Controller(request, id)
         controller.delete()
         return 'delete'
 
