@@ -10,6 +10,9 @@ app = Flask(__name__)
 
 @app.route("/<id>", methods=['GET', 'POST', 'PUT', 'DELETE'])
 def manager(id):
+    """
+    Thing Manager Data Handler
+    """
     controller = Controller(request, id)
     if request.method == 'GET':
         controller.get()
@@ -28,9 +31,14 @@ def manager(id):
         controller.delete()
         return 'delete'
 
+
+
 @app.route("/<subject>/data", methods=['POST']) # Probably it will not be necessary
 def enrich_data(subject):
     return 'enrich_data: ' + subject
+
+
+    
 
 @app.route("/<subject>/meta", methods=['POST'])
 def enrich_meta(subject):

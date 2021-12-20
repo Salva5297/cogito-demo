@@ -17,6 +17,9 @@ class TDGenerator:
         """
         Generate Thing Descriptions
         """
+        rdf_uri = ""
+        file_uri = ""
+
         td = {}
         self.tds.append(td)
         pass

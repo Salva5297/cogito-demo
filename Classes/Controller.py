@@ -17,7 +17,7 @@ class Controller:
         self.generate_graph = False # boolean to generate or not the graph
         self.graph_generator = None # graph generator
         self.response = {} # response sent to the client
-        self.sparql_query = None # sparql query
+        self.sparql_query = None # sparql query for get statement
 
 
     def get(self):
@@ -54,7 +54,7 @@ class Controller:
         Insert graph given as argument in body of the request in triple store and generate TDs
         """
         if "rdf" not in request.files:
-            return make_response(jsonify({"response": "No file part"}))
+            return make_response(jsonify({"response": "No rdf file part"}))
         self.uploaded_file = self.request.files['rdf'].read()
         self.generate_graph = False
         self.temporal_file_generation_process()
@@ -85,20 +85,22 @@ class Controller:
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE)
 
-        (out, err) = proc.communicate()
-        lastCode = str(err).split('HTTP/1.1 ')[-1].split(" ")[0]
-        
+        ## https://stackoverflow.com/questions/50376348/http-request-authentication-for-sparql-insert-in-virtuoso-endpoint
+
         if os.path.exists(file_name +'.ttl'):
             os.remove(file_name +".ttl")
+
+        # (out, err) = proc.communicate()
+        # lastCode = str(err).split('HTTP/1.1 ')[-1].split(" ")[0]
         
-        if lastCode == "200":
-            return {'status': 'Success'}
-        elif lastCode == "201":
-            return {'status': 'Created'}
-        elif lastCode == "401":
-            return {'status': 'Error in authorization'}
-        else:
-            return {'status': 'Error'}
+        # if lastCode == "200":
+        #     return {'status': 'Success'}
+        # elif lastCode == "201":
+        #     return {'status': 'Created'}
+        # elif lastCode == "401":
+        #     return {'status': 'Error in authorization'}
+        # else:
+        #     return {'status': 'Error'}
 
 
     def temporal_file_generation_process(self):
