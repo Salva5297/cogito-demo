@@ -1,0 +1,29 @@
+{
+    "prefixes": [
+        {"name":"beo", "url":"https://pi.pauwel.be/voc/buildingelement#"},
+        {"name":"bot", "url":"https://w3id.org/bot#"},
+        {"name":"brick", "url":"https://brickschema.org/schema/1.1/Brick#"},
+        {"name":"om", "url":"http://openmetrics.eu/openmetrics#"},
+        {"name":"props", "url":"https://w3id.org/props#"},
+        {"name":"rdfs", "url":"http://www.w3.org/2000/01/rdf-schema#"},
+        {"name":"xsd", "url":"http://www.w3.org/2001/XMLSchema#"}
+    ],
+    "id":"ifc:cogito1234",
+    "types": [
+        "bot:Building",
+        "brick:Building"
+    ],
+    "description":"A building element.",
+    "properties": [
+        {
+            "name": "IFC",
+            "uri": "https://example_uri.com/files/cogito1234.ifc",
+            "type": "application/ifc"
+        },
+        {
+            "name": "KnowledgeGraph",
+            "uri": "https://openmetrics.eu/openmetrics#Building_120",
+            "type": "text/turtle"
+        }
+    ]
+}
