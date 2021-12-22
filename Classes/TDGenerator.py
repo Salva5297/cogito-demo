@@ -12,7 +12,7 @@ class TDGenerator:
     def __init__(self, id):
         self.id = id
         self.tds = []
-        self.sparql_query = 'select distinct ?s where {[] a ?s} LIMIT 100' # Change to None if passed as parameter
+        self.sparql_query = 'select distinct ?s from <http://localhost:8890/ifc> where {[] a ?s} LIMIT 100' # Change to None if passed as parameter
         self.query_results = []
         self.template = None
         self.render_info = {}
@@ -64,9 +64,9 @@ class TDGenerator:
         self.render_info.update(
             {
                 "prefixes": [
-                    {"name":"beo", "url":"https://pi.pauwel.be/voc/buildingelement#"} # prefixes
+                    {"name":"beo", "url":"https://pi.pauwel.be/voc/buildingelement#"} # hardcode prefixes (read from file)
                 ],
-                "id":self.id,
+                "title":self.id, # without id --> anonymous TD (POST registration)
                 "types": [
                     "bot:Building" # subject
                 ],
@@ -81,6 +81,9 @@ class TDGenerator:
                         "name": "KnowledgeGraph", # graph
                         "uri": "https://openmetrics.eu/openmetrics#Building_120", # uri of the graph
                         "type": "text/turtle" # type_name of the graph
+                    },
+                    {
+                        "name": "BuildingElement", # property with the info of subject provided by the query
                     }
                 ]
             }

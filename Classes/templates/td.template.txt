@@ -9,7 +9,7 @@
     }
 
     ],
-    "@@id": "@id", 
+    "@title": "@id", 
     
     @if len(types)==1:
         @for type in types:

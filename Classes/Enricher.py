@@ -3,7 +3,7 @@
 class Enricher:
 
     def __init__(self, subject):
-        self.subject = subject
+        self.subject = subject # this subject will be the id of the thing
 
     def enrich_data(self):
         """

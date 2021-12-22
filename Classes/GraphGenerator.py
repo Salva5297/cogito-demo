@@ -12,7 +12,7 @@ class GraphGenerator:
         """
         Generate graph from a specific file uploaded
         """
-        if file_type == 'idf':
+        if file_type == 'ifc':
             self.graph = self.generate_ifc_graph(file_name)
         
         else:

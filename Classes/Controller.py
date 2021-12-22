@@ -3,6 +3,7 @@ import os
 import subprocess
 from flask import request, make_response, jsonify
 
+from RDF_Service import TripleStore_Service
 
 
 class Controller:
@@ -14,7 +15,6 @@ class Controller:
         self.type_name = None # type/name
         self.graph = None # rdf graph generated from file provided or rdf file provided by the request
         self.triple_store_credentials = {'username': 'dba', 'password': 'mysecret'} # credentials for triple store
-        self.generate_graph = False # boolean to generate or not the graph
         self.graph_generator = None # graph generator
         self.response = {} # response sent to the client
         self.sparql_query = None # sparql query for get statement
@@ -38,7 +38,7 @@ class Controller:
         self.graph_generator = graph_generator # execute graph generator class and generate graph
         self.generate_graph = True # change generate_graph to True because in this step we need to generate the graph
         self.temporal_file_generation_process() # generate graph and store it in triple store
-        # generate TDs using sparql query retrieving all elemebts of the graph
+        # generate TDs using sparql query retrieving all elements of the graph
         return self.response
         
     def post_enrichment(self, enricher):
@@ -54,10 +54,18 @@ class Controller:
         Insert graph given as argument in body of the request in triple store and generate TDs
         """
         if "rdf" not in request.files:
-            return make_response(jsonify({"response": "No rdf file part"}))
+            return make_response(jsonify({"response": "No rdf file part"})) # Change to array with serialization that we need ttl, n3 and xml -> if not provide error
         self.uploaded_file = self.request.files['rdf'].read()
         self.generate_graph = False
-        self.temporal_file_generation_process()
+        triple_store_service = TripleStore_Service()
+        triple_store_service.store_rdf(self.uploaded_file, self.id)
+        
+        query = ""
+        triple_store_service.query_graph(query)
+        #self.response = self.insert_graph(temp.name, self.id, self.triple_store_credentials)
+        #self.temporal_file_generation_process()
+        # Query SPARQL -> Triple Store
+        # Generate TDs
         return self.response
 
     def delete(self):
@@ -111,10 +119,7 @@ class Controller:
         try:
             temp.write(self.uploaded_file)
             temp.seek(0)
-            if self.generate_graph:
-                self.graph_generator.generate_graph(self.file_type, temp.name) # remove after graph file path to not make trash files
-                self.response = self.insert_graph(self.graph_generator.graph_path, self.id, self.triple_store_credentials)
-            else:
-                self.response = self.insert_graph(temp.name, self.id, self.triple_store_credentials)
+            self.graph_generator.generate_graph(self.file_type, temp.name) # remove after graph file path to not make trash files
+            self.response = self.insert_graph(self.graph_generator.graph_path, self.id, self.triple_store_credentials)
         finally:
             temp.close()
