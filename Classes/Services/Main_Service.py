@@ -3,10 +3,10 @@ import os
 import subprocess
 from flask import request, make_response, jsonify
 
-from RDF_Service import TripleStore_Service
+from Classes.Services.RDF_Service import TripleStore_Service
 
 
-class Controller:
+class Service:
     def __init__(self, request_data, id):
         self.request = request_data # request sent to the api
         self.id = id # id of TD and graph
@@ -97,19 +97,7 @@ class Controller:
 
         if os.path.exists(file_name +'.ttl'):
             os.remove(file_name +".ttl")
-
-        # (out, err) = proc.communicate()
-        # lastCode = str(err).split('HTTP/1.1 ')[-1].split(" ")[0]
-        
-        # if lastCode == "200":
-        #     return {'status': 'Success'}
-        # elif lastCode == "201":
-        #     return {'status': 'Created'}
-        # elif lastCode == "401":
-        #     return {'status': 'Error in authorization'}
-        # else:
-        #     return {'status': 'Error'}
-
+            
 
     def temporal_file_generation_process(self):
         """

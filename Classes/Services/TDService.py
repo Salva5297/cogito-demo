@@ -7,12 +7,12 @@ from wheezy.template.engine import Engine
 from wheezy.template.ext.core import CoreExtension
 from wheezy.template.loader import FileLoader
 
-class TDGenerator:
+class TDService:
 
     def __init__(self, id):
         self.id = id
         self.tds = []
-        self.sparql_query = 'select distinct ?s from <http://localhost:8890/ifc> where {[] a ?s} LIMIT 100' # Change to None if passed as parameter
+        self.sparql_query = 'select distinct ?s ?o from <http://localhost:8890/ifc> where {?s a ?o}' # Change to None if passed as parameter
         self.query_results = []
         self.template = None
         self.render_info = {}
