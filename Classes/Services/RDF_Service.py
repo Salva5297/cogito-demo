@@ -1,23 +1,20 @@
 
 
-class TripleStore_Service:
+class RDF_Service:
 
-    def __init__():
+    def __init__(self):
         pass
 
 
-
-    def store_rdf(graph):
+    def generate_graph(self, file_type, file_name):
         """
-        Store rdf in triple store
+        Generate graph from a specific file uploaded
         """
-        pass
-
-
-    def query_graph(query): # TODO: Make it private
-        """
-        Query graph
-        """
+        if file_type == 'ifc':
+            self.graph = self.generate_ifc_graph(file_name)
+        else:
+            # execute helio using jar and save the output in a file with same name as the file adding .ttl
+            self.graph_path = file_name + ".ttl"
         pass
 
 

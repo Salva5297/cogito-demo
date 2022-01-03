@@ -31,7 +31,8 @@ def controller_put(id):
     """
     Thing Manager Data Handler for PUT requests # Use type to know the serialization
     """
-    service = Service(request, id)
+    # Get the elements of the request
+    service = Service(request, id) # Call processRDF
     service.put()
     return 'put'
 
